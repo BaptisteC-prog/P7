@@ -31,6 +31,62 @@
 				"comment":"J'ai trouvé ça correct, sans plus"
 			 }
 		  ]
+	   },
+	   {
+		  "restaurantName":"Sanukiya",
+		  "address":"9 Rue d'Argenteuil, 75001 Paris",
+		  "lat":48.86468,
+		  "long":2.333827,
+		  "ratings":[
+			 {
+				"stars":5,
+				"comment":"Excellent !"
+			 },
+			 {
+				"stars":5,
+				"comment":"J'adore !"
+			 }
+		  ]
+	   },
+	   {
+		  "restaurantName":"Soon Grill",
+		  "address":"78 Rue des Tournelles, 75003 Paris",
+		  "lat":48.8568958,
+		  "long":2.3589548,
+		  "ratings":[
+			 {
+				"stars":5,
+				"comment":"Génial !"
+			 },
+			 {
+				"stars":2,
+				"comment":"J'ai pas vraiment aimé"
+			 },
+			 {
+				"stars":3,
+				"comment":"Moyen"
+			 }
+		  ]
+	   },
+	   {
+		  "restaurantName":"KFC Paris Republique",
+		  "address":"21 Place de la République, 75003 Paris",
+		  "lat":48.8676318,
+		  "long":2.3620631,
+		  "ratings":[
+			 {
+				"stars":4,
+				"comment":"Croustillant"
+			 },
+			 {
+				"stars":1,
+				"comment":"C'est pas mon truc"
+			 },
+			 {
+				"stars":2,
+				"comment":"Ok, sans plus"
+			 }
+		  ]
 	   }
 	]
 }
