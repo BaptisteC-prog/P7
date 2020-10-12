@@ -4,87 +4,161 @@
   constructor()
   {
     this.location = {lat: 48.864716, lng: 	2.349014}; //paris
-    // tester une liste de markers pour la prochaine fois
+    
   }
 
   initMap() {
-    //window.renderMap = this.renderMap.bind(this);
-    
+
+    //geoLoc();
+    let listRestos;
+
     var carte = new google.maps.Map(document.getElementById("map"),
       {
         zoom: 12,
         center: this.location,
      });
-     
-    }
-    
-  ajaxGet(url, callback) {
-    
-    var req = new XMLHttpRequest();
-    req.open("GET", url);
-    req.addEventListener("load", function ()    {
-      if (req.status >= 200 && req.status < 400) 
-      {
-          // Appelle la fonction callback en lui passant la réponse de la requête
-          callback(req.responseText);
-      } else { console.error(req.status + " " + req.statusText + " " + url); }
-    });
-       
-    req.addEventListener("error", function () 
-    {
-      console.error("Erreur réseau avec l'URL " + url);
-    });
-      req.send(null);
-      //console.log("OBJECT THIS :");
-      //console.log(this);
-    }
 
-  getMarkers(){
-    //console.log("OBJECT THIS :");
-    //console.log(this);
-    var markArray=[];
-    this.ajaxGet("resto.json", function  (reponse) 
-    {
-      let listRestos = JSON.parse(reponse);
+     ajaxGet("resto.json", function getRestos2(reponse) {
+      listRestos = JSON.parse(reponse);
       
+      //console.log(restoNames[0]);
       //console.log(listRestos.restaurants[0].lat);
       for ( let resto in listRestos.restaurants ) 
         {
           let lat=listRestos.restaurants[resto].lat;
           let long=listRestos.restaurants[resto].long;
+          let restoName=listRestos.restaurants[resto].restaurantName;
+         addMarker(lat,long,restoName);
 
-         // let latLng = new google.maps.LatLng(lat,long);
-          markArray.push(lat);
-          markArray.push(long);
         }
      });
-     return markArray;
-  }
 
+     function getRestos(listRestos,bounds) {
+      //console.log(bounds);
+      if (bounds == null || bounds == undefined) return null;
+      var selected = [];
+      for (let i=0; i < listRestos.restaurants.length; i++) {
+          if (bounds.contains(new google.maps.LatLng(listRestos.restaurants[i].lat, listRestos.restaurants[i].long))) {
+              selected.push(listRestos.restaurants[i]);
+          }
+      }
+      return selected;
+    }
 
-  addMarkers(){
-   // console.log("OBJECT THIS :");
-   // console.log(this);
-    let markArray=this.getMarkers();
-    console.log(markArray);
-    console.log("mark array length :"+markArray.length);
-   // alert(markArray.length);
-   let test=0;
-    //console.log(markArray[0]);
-    for (let mark=0;mark<4;mark=mark+2) {
-      //alert();
-      let lat=markArray[mark];
-      let long=markArray[mark+1];
+     function addMarker(lat,long,restoName) {
+
       let latLng = new google.maps.LatLng(lat,long);
-      console.log(this);
+
       let marker = new google.maps.Marker({
-        position: latLng,
-        map: this
-      });
-     }
-  }
+      position: latLng,
+      map: carte,
+      title: restoName});
+    }
+
+    function addMarkerCust(pos,icon) {
+
+      //let latLng = new google.maps.LatLng(lat,long);
+      //console.log(pos) ;
+      let marker = new google.maps.Marker({
+      position: pos,
+      map: carte,
+      icon: icon});
+    }
+  
+    function geoLoc(){
+
+    let  infoWindow = new google.maps.InfoWindow();
+    
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            let pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            let icon="img/userPos.png";
+            pos={lat: 48.864716, lng: 	2.349014}; //FAUSSE POSITION A RETIRER
+            addMarkerCust(pos,icon);
+           /* infoWindow.setPosition(pos);
+            infoWindow.setContent("Vous êtes ici");
+            infoWindow.open(carte);*/
+            carte.setCenter(pos);            
+          },
+          () => {
+            handleLocationError(true, infoWindow, carte.getCenter());
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, carte.getCenter());
+      }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(
+        browserHasGeolocation
+          ? "Erreur: Nous n'avons pas pu vous géolocaliser"
+          : "Erreur: Votre navigateur n'accepte pas la géolocalisation"
+      );
+      infoWindow.open(carte);
+    }
+
+    //MAJ EN CLIQUANT
+    google.maps.event.addListener(carte, 'click', function() {
+      let restos=getRestos(listRestos,carte.getBounds());
+
+
+      $('#content').html("");
+      for( let i=0;i<restos.length;i++){
+        restoCard(restos[i]);
+      }
+    });
+    
+    function avgRate(restaurant){
+      let grade=0;
+      let count=0;
+      for ( let rate in restaurant.ratings  ) {
+        grade+=restaurant.ratings[rate].stars;
+        count++;
+      }
+
+      if (count>0) {
+        //console.log(grade/count);
+        return 0.5*Math.floor(2*grade/count);
+      }
+
+    }
+
+    function starsToImg(stars){
+      return "<img src='img/"+stars+".png'>";
+    }
+
+
+    function restoCard(restaurant){
+      //console.log(restaurant);
+      //console.log(restaurant.restaurantName);
+      if ( true) {
+      let id=Math.floor(Math.random()*1000000);
+      let card="<div class='restoCard'><h1 class='title'>"+restaurant.restaurantName+starsToImg(avgRate(restaurant))+"</h1>";
+      card+="<p>Note : "+avgRate(restaurant)+"</p>";
+      card+="<p>"+restaurant.address+"</p>";
+      card+="<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#infos"+id+"'>Commentaires</button>";
+        card+="<div id='infos"+id+"' class='collapse'>";
+        card+="blabla";
+
+        card+="</div>";
+      card+="</div><hr>";
+      $('#content').append(card);
+      //console.log(restoCard);
+      //return restoCard;
+      }
+    }
 
 
 
+  }//initMap
 
-}
+
+}//class
