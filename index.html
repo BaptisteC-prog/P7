@@ -2,27 +2,37 @@
 <html lang="fr">
    <head>
     <meta charset="UTF-8">
+     
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
    </head>
   <body>
-    <div id="map"></div>
+    <div class="row">
+        <div id="content" class="col-lg-4">
+             CONTENT
+        </div>
+        <div class="col-lg-1">&nbsp;</div>
+        <div id="map" class="col-lg-7 col-md-12"></div>
+    </div>
 <!--
 <script type="module" src="js/start.js"></script>
 -->
-    <script src="js/Gmap.js"></script>
-    <script src="js/start.js"></script>
 
-
-<script>
-
-function initMap(){
-    var carte= new Map();
-    carte.initMap();
-}
 
 </script>
-    <script defer async src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">    </script>
-  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="js/ajax.js"></script>
+    <script src="js/Gmap.js"></script>
+    <script src="js/start.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
+
+
+<div id="script"></div>
+
 
 </body>
 </html>
