@@ -1,22 +1,12 @@
        #map {
-        height: 850px;
-        /*width: 100%;*/
-        /*float:right;*/
-        /*margin-top:3%;
-        margin-right:3%;*/
-       /* overflow:hidden;*/
+        height: 800px;
 
       }
 
       #content {
-        
-        /*float:left;*/
-       /* margin-top:3%;
-        margin-left:2%;*/
-        /*background:red;*/
-        overflow:auto;
-      
-      }
+        height:800px;
+         overflow:auto;  
+        }
  
       .title {
         font-family: 'Sansita Swashed', cursive;
@@ -24,16 +14,100 @@
       }
 
       html, body {
-        /*height: 100%;*/
         margin: 15px;
         padding: 15px;
         font-family: 'ABeeZee', sans-serif;
         font-size:110%;
-        /*overflow:auto;*/
       }
 
 
       h1 img {
         padding-left:15px;
         margin-top:-7px;
+      }
+
+      .restoCard{
+        padding:15px;
+      }
+
+      .restoCard td{
+        padding:5px;
+      }
+
+      .restoCard:hover{
+         background: rgb(91,255,0);
+         background: linear-gradient(90deg, rgba(91,255,0,0.3) 0%, rgba(183,255,131,0.1) 100%);
+      }
+
+      .comment{
+        padding:15px;
+      }
+
+      .comment img{
+        height:50px;
+        width:50px;
+      }
+
+      .comment td{
+        padding:7px;
+      }
+
+      .miniStars img{
+        width:90px;
+        height:17px;
+        margin-top:-3px;
+      }
+
+      .col-lg-5 {
+        padding:15px;
+      }
+
+      .apiImage {
+     float:right;
+      }
+
+
+      .tableTitle{
+        width:97%;
+      }
+
+      .td{
+        vertical-align: top;
+      }
+
+      .inline{
+        display:inline;
+      }
+
+      #restoGrade{
+        width:40px;
+      }
+
+      .menu-top{
+        margin-top:-30px;
+        padding-bottom:15px;
+      }
+
+      @media only screen and (max-width: 1500px) {
+        .apiImage {
+          height:150px;
+          width:150px;
+        }
+      }
+
+      @media only screen and (max-width: 1200px) {
+        #content {
+          height:400px;
+        }
+      }
+
+      @media only screen and (max-width: 600px) {
+        .apiImage {
+          height:75px;
+          width:75px;
+        }
+      }
+
+      .secret{
+        display:none;
       }
