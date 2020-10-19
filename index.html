@@ -9,16 +9,30 @@
     <link rel="stylesheet" href="css/style.css">
    </head>
   <body>
-    <div class="row">
-        <div id="content" class="col-lg-4">
-             CONTENT
+    <div class="row menu-top">
+        <div class="col-lg-2">
+            <div class="inline">
+                <label class="inline" for="restoGrade">Note minimum:</label>
+                <input class="inline" type="number" class="form-control mb-2 mr-sm-2" id="restoGrade" value="0">
+                <button type="input" id="restoGradeButton" class="btn btn-primary mb-2 inline">Ok</button>
+            </div>
         </div>
-        <div class="col-lg-1">&nbsp;</div>
+        <div class="col-lg-4">
+            <div class="inline">
+                <label class="inline" for="newRestoName">Nouveau restaurant : </label>
+                <input class="inline" type="text" class="form-control mb-2 mr-sm-2" id="newRestoName" value="" placeholder="entrez le nom">
+                <button type="input" id="newRestoNameButton" class="btn btn-primary mb-2 inline">Ok</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="content" class="col-lg-5">
+            
+        </div>
+
         <div id="map" class="col-lg-7 col-md-12"></div>
     </div>
-<!--
-<script type="module" src="js/start.js"></script>
--->
+
 
 
 </script>
@@ -26,13 +40,13 @@
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="js/ajax.js"></script>
     <script src="js/Gmap.js"></script>
-    <script src="js/start.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
 
 
 <div id="script"></div>
-
+<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&region=FR&language=fr'></script>
+<script src="js/start.js"></script>
 
 </body>
 </html>
