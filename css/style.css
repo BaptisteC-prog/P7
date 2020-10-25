@@ -79,8 +79,8 @@
         display:inline;
       }
 
-      #restoGrade{
-        width:40px;
+      #restoGrade,#restoGradeMax{
+        width:50px;
       }
 
       .menu-top{
