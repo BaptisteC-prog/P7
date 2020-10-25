@@ -10,10 +10,13 @@
    </head>
   <body>
     <div class="row menu-top">
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <div class="inline">
+                <input type="checkbox" id="allowFilter" name="allowFilter">
                 <label class="inline" for="restoGrade">Note minimum:</label>
                 <input class="inline" type="number" class="form-control mb-2 mr-sm-2" id="restoGrade" value="0">
+                <label class="inline" for="restoGrade">et maximum:</label>
+                <input class="inline" type="number" class="form-control mb-2 mr-sm-2" id="restoGradeMax" value="5">
                 <button type="input" id="restoGradeButton" class="btn btn-primary mb-2 inline">Ok</button>
             </div>
         </div>
@@ -22,6 +25,11 @@
                 <label class="inline" for="newRestoName">Nouveau restaurant : </label>
                 <input class="inline" type="text" class="form-control mb-2 mr-sm-2" id="newRestoName" value="" placeholder="entrez le nom">
                 <button type="input" id="newRestoNameButton" class="btn btn-primary mb-2 inline">Ok</button>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="inline">
+                <button type="input" id="restoNearby" class="btn btn-primary mb-2 inline">Resto proches</button>
             </div>
         </div>
     </div>
@@ -33,8 +41,6 @@
         <div id="map" class="col-lg-7 col-md-12"></div>
     </div>
 
-
-
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
@@ -45,8 +51,9 @@
 
 
 <div id="script"></div>
-<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&region=FR&language=fr'></script>
+<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&region=FR&language=fr&libraries=places'></script>
 <script src="js/start.js"></script>
+<script src="js/Restaurant.js"></script>
 
 </body>
 </html>
