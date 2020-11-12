@@ -6,8 +6,6 @@ class GMap {
     this.location = { lat: 48.864716, lng: 2.349014 }; //paris
     this.listRestos = [];
     this.getAllRestos = this.getAllRestos.bind(this);
-    //this.restoCard = this.restoCard.bind(this);
-    this.resultsFromPlaces = this.resultsFromPlaces.bind(this);
     this.key = "AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE";
     this.minGrade = 0;
     this.fullyLoaded = false;
@@ -15,9 +13,6 @@ class GMap {
     this.needRefresh = false;
     this.readyToAdd = true;
     this.context = "";
-    this.userPos={ lat: 48.864716, lng: 2.349014 };
-    this.placesServices;
-    this.placesStatus;
   }
 
   failure(msg) {
@@ -35,30 +30,9 @@ class GMap {
     fetch("resto.json")
       .then((val) => val.json())
       .then((result) => this.getAllRestos(result));
-    
-      //////////////////////////////////////////////////////////
-      /*var service;
-      service = new google.maps.places.PlacesService(this.map);
-      service.nearbySearch(request, callback);
-
-      function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            console.log(results[i]);
-            //createMarker(results[i]);
-          }
-        }
-      }
-      */
-
   }//initMap
 
-  //JSDOC
-  /**
-   * @param  {string} lat
-   * @param  {string} long
-   * @param  {string} restoName
-   */
+
   addMarker(lat, long, restoName) {
     if (true) {
       let latLng = new google.maps.LatLng(lat, long);
@@ -117,8 +91,6 @@ class GMap {
     this.setMarkers();
   }
 
-
-
   setMarkers(grade) {
 
     this.fullyLoaded = true;
@@ -127,7 +99,7 @@ class GMap {
   geoLoc() {
 
     let infoWindow = new google.maps.InfoWindow();
-    //let userPos={ lat: 48.864716, lng: 2.349014 };
+
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -143,7 +115,6 @@ class GMap {
           infoWindow.setContent("Vous êtes ici");
           infoWindow.open(this.map);
           this.map.setCenter(pos);
-          this.userPos= pos;
         },
         () => {
           this.handleLocationError(true, infoWindow, this.map.getCenter());
@@ -153,7 +124,6 @@ class GMap {
       // Browser doesn't support Geolocation
       this.handleLocationError(false, infoWindow, this.map.getCenter());
     }
-    return this.userPos;
   }
 
   handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -166,23 +136,11 @@ class GMap {
     infoWindow.open(this);
   }
 
-  getRestosFromPlaces(pos){
-    let request = {
-      location: pos,
-      radius: '500',
-      type: ['restaurant']
-    };
-    const servicePLaces = new google.maps.places.PlacesService(this.map);
-    //this.placesStatus=new google.maps.places.PlacesServiceStatus;
-    servicePLaces.nearbySearch(request, this.resultsFromPlaces);
-  }
-
   restosInView(listRestos, bounds) {
     // console.log(grade);
     let grade = $("#restoGrade").val();
     let gradeMax = $("#restoGradeMax").val();
-    //console.log(bounds);
-    //console.log($('input[id=allowFilter]').prop('checked'));
+    console.log($('input[id=allowFilter]').prop('checked'));
     if (bounds == null || bounds == undefined) return null;
     var selected = [];
     for (let i = 0; i < listRestos.restaurants.length; i++) {
@@ -197,29 +155,21 @@ class GMap {
         }
       }
     }
-   // console.log("setmarkers1"+grade);
+    console.log("setmarkers1"+grade);
     this.setMarkers(grade);
     return selected;
   }
 
-  restoCard(restaurant, idRestaurant,rating=null) {
-    let noteResto;
-    let noteRestoStars;
-    if (rating === null ) {
-       noteResto=avgRate(restaurant);
-       noteRestoStars=noteResto }
-    else {
-      noteResto=rating;
-      noteRestoStars=0.5*Math.floor(2*rating);
-    }
-
+  restoCard(restaurant, idRestaurant) {
+    //console.log(restaurant);
+    //console.log(restaurant.restaurantName);
     if (true) {
-      //info panel:
+      //let id=Math.floor(Math.random()*1000000);
       let id = idRestaurant;
       let card = "<div class='restoCard'>";
       card += "<table class='tableTitle'><tr><td>";
-      card += "<h1 class='title'>" + restaurant.restaurantName + starsToImg(noteRestoStars) + "</h1>";
-      card += "<p>Note : " + noteResto + "</p>"; 
+      card += "<h1 class='title'>" + restaurant.restaurantName + starsToImg(avgRate(restaurant)) + "</h1>";
+      card += "<p>Note : " + avgRate(restaurant) + "</p>";
       card += "<p>" + restaurant.address + "</p></td>";
       card += "<td>" + createApiImage(restaurant, this.key) + "</td></tr></table>";
       card += "<input class='secret' type='text' id='restoID' value='" + idRestaurant + "'></input>";
@@ -243,22 +193,9 @@ class GMap {
       this.needRefresh = false;
     }
 
-    //marking resto
-    let lat;
-    let long;
-    let restoName;
-    console.log("ID GET "+idRestaurant);
-    if(idRestaurant>1000){
-      lat=restaurant.lat;
-      long=restaurant.long;
-      restoName=restaurant.restaurantName;
-    }
-    else{
-    
-    lat = this.listRestos.restaurants[idRestaurant].lat;
-    long = this.listRestos.restaurants[idRestaurant].long;
-    restoName = this.listRestos.restaurants[idRestaurant].restaurantName;
-    }
+    let lat = this.listRestos.restaurants[idRestaurant].lat;
+    let long = this.listRestos.restaurants[idRestaurant].long;
+    let restoName = this.listRestos.restaurants[idRestaurant].restaurantName;
     this.addMarker(lat, long, restoName);
   }
 
@@ -266,30 +203,6 @@ class GMap {
     this.listRestos.restaurants[idRestaurant].ratings.push({ stars, comment });
 
     console.log(this.listRestos);
-  }
-
-  resultsFromPlaces(results, status){
-  //  this.restoCard.bind(resultsFromPlaces(results, status));
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (let i = 0; i < results.length; i++) {
-        console.log(results);
-        let restaurant=new Restaurant;
-        restaurant.restaurantName=results[i].name;
-        restaurant.address=results[i].vicinity;
-        restaurant.lat=results[i].geometry.location.lat();
-        restaurant.long=results[i].geometry.location.lng();
-        let rating=results[i].rating;
-       i++;
-      // console.log("Mon this : ", this); 
-      let id=Math.floor(1000+i);
-      console.log(i);
-      console.log("ID SEND "+id);
-      console.log("SEND "+results[i].name);
-      
-       this.restoCard(restaurant, id,rating);
-      //  createMarker(results[i]);
-      }
-    }
   }
 
 }//class
