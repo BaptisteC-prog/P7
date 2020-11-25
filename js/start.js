@@ -7,26 +7,32 @@ carte.initMap();
 let minGrade=$("#restoGrade").val();
 
 function updateList(){
+  $('#content').html("");
+  carte.markers=[];
+  carte.deleteMarkers;
+ // carte.getRestosFromPlaces(carte.map.getCenter());
+
   let restos=carte.restosInView(carte.listRestos,carte.map.getBounds());
   //carte.needRefresh=true; 
-  $('#content').html("");
-  for( let i=0;i<restos.length;i++){
-    carte.restoCard(restos[i],i);
-  }
+ 
+  
+ /* for( let i=0;i<restos.length;i++){
+  //  carte.restoCard(restos[i],i);
+  }*/
 
   //RESTOS VENANT DE GOOGLE PLACES
-  carte.getRestosFromPlaces(carte.map.getCenter());
+  //carte.getRestosFromPlaces(carte.map.getCenter());
 
 }
 
 document.getElementById("restoGrade").onchange = function() {carte.needRefresh=true;}
 
 google.maps.event.addListener(carte.map, 'mousemove', function() {
-  //debug only
+  //console.log(carte.placesComments);
 });
 
 setTimeout(function(){
-  updateList();
+  //updateList();
 }, 300);
 
 carte.map.addListener("click", (event) => {
@@ -34,20 +40,33 @@ carte.map.addListener("click", (event) => {
     
   carte.addMarkerResto(event.latLng);
   carte.needRefresh=true;
+  updateList();
  //console.log(event.latLng);
   }
   carte.context="";
   
-  updateList();
+  
 
 });
 
 google.maps.event.addListener(carte.map, 'bounds_changed', function() {
-  if (carte.fullyLoaded) { updateList(); }
+  //updateList();
+  //if (carte.fullyLoaded) { updateList(); }
 });
 
 google.maps.event.addListener(carte.map, 'idle', function() {
-  if (carte.fullyLoaded) { updateList(); }
+  //updateList(); 
+  //if (carte.fullyLoaded) { carte.deleteMarkers(); updateList(); }
+});
+
+
+$("#restoNearby").on("click", function(){
+
+  carte.deleteMarkers();
+  //this.needRefresh=true; 
+  updateList();
+  carte.getRestosFromPlaces(carte.map.getCenter());
+  
 });
 
 $("#restoGradeButton").on("click", function(){
@@ -60,27 +79,34 @@ $("#restoGradeButton").on("click", function(){
 
 $("#content").on("click",'.restoCommButton', function(){
  let id= $(this).attr('id');
- let id_=Number(id);
+ //let id_=Number(id);
  let stars=Number($("#gradeID"+id).val());
-  carte.addComment(id_,stars,$("#commID"+id).val());
+ console.log(id);
+  carte.addComment(id,stars,$("#commID"+id).val());
  //console.log(carte.listRestos[0]);
  this.needRefresh=true; 
   updateList();
 });
 
+$("#content").on("click",'.buttonComms', function(){
+
+  let id=$(this).attr('id');
+/*
+  carte.getCommentsFromPlaces(id);
+
+  let elem="#div"+id;
+
+ // let comments=carte.restoCommentsPlaces(id);
+ // $(elem).html(comments);
+*/
+ });
 
 $("#newRestoName").on("change", function(){
-  
- // carte.context="addresto";
+
 });
 
 $("#newRestoNameButton").on("click", function(){
   
   carte.context="addresto";
- });
-
- $("#restoNearby").on("click", function(){
-  carte.getRestosFromPlaces();
   
  });
-

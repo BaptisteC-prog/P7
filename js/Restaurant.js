@@ -7,7 +7,12 @@
     this.address=""; 
     this.lat=lat;
     this.long=long;
+    this.avgRate;
     this.ratings=[];
+    this.placesId;
+    this.placesComments=[];
+    this.placesRatings=[];
+    this.hasCustomComments=false;
   }
 
 
