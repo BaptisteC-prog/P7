@@ -97,7 +97,6 @@ class GMap {
 
   geoLoc() {
     let infoWindow = new google.maps.InfoWindow();
-    let error = true;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -109,7 +108,7 @@ class GMap {
           this.addMarkerCust(pos, icon);
           infoWindow.setPosition(pos);
           infoWindow.setContent("Vous êtes ici");
-          error = false;
+          //error = false;
           infoWindow.open(this.map);
           this.map.setCenter(pos);
           this.userPos = pos;
@@ -183,7 +182,8 @@ class GMap {
       let comm = new Comment;
       comm.commId = results.place_id;
       comm.avgRate = results.rating;
-      for (let k = 0; k < results.reviews.length; k++) {
+	  console.log(results);
+      for (let k = 0; k < 5; k++) {
         comm.comment.push(results.reviews[k].text);
         comm.rating.push(results.reviews[k].rating);
       }
